@@ -8,20 +8,28 @@ from botocore.exceptions import ClientError
 
 
 def get_table(dynamodb=None):
-    if not dynamodb:
+    
+    if not dynamodb: # The ‘not’ is a Logical operator in Python that will return True if the expression is False.
+    
         URL = os.environ['ENDPOINT_OVERRIDE']
+        
         if URL:
             print('URL dynamoDB:'+URL)
+            
             boto3.client = functools.partial(boto3.client, endpoint_url=URL)
             boto3.resource = functools.partial(boto3.resource,
                                                endpoint_url=URL)
-        dynamodb = boto3.resource("dynamodb")
+                                               
+        dynamodb = boto3.resource("dynamodb") #https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#service-resource 
+    
     # fetch todo from the database
+    
     table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
     return table
 
 
 def get_item(key, dynamodb=None):
+    
     table = get_table(dynamodb) # captures the Table returned by this method.
 
     try:
@@ -44,13 +52,18 @@ def get_item(key, dynamodb=None):
 
 
 def get_items(dynamodb=None):
+    
     table = get_table(dynamodb)
+    
     # fetch todo from the database
-    result = table.scan() # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Table.scan
+    # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Table.scan
+    
+    result = table.scan() 
     return result['Items']
 
 
 def put_item(text, dynamodb=None):
+    
     table = get_table(dynamodb)
     timestamp = str(time.time())
     
@@ -83,6 +96,7 @@ def put_item(text, dynamodb=None):
 
 
 def update_item(key, text, checked, dynamodb=None):
+    
     table = get_table(dynamodb)
     timestamp = int(time.time() * 1000)
     # update the todo in the database
@@ -115,6 +129,7 @@ def update_item(key, text, checked, dynamodb=None):
 
 
 def delete_item(key, dynamodb=None):
+    
     table = get_table(dynamodb)
     # delete the todo from the database
     try:
