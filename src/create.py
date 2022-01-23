@@ -4,7 +4,7 @@ import todoList
 
 
 def create(event, context):
-    data = json.loads(event['body']) # takes the body from the JSON call
+    data = json.loads(event['body'])  # takes the body from the JSON call
     if 'text' not in data:
         logging.error("Validation failed")
         raise Exception("Couldn't create the todo item.")
