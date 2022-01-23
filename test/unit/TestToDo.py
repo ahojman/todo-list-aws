@@ -230,35 +230,21 @@ class TestDatabaseFunctions(unittest.TestCase):
 #
 #########################
 
-    # def test_create_todo_table(self):
         
-    #     print ('---------------------')
-    #     print ('Start: test_create_todo_table')
-    #     from src.todoList import create_todo_table
-    #     # Testing file functions
-    #     result = create_todo_table(self.dynamodb)
-    #     self.assertEqual(result, self.table.name)
-    #     print ('End: test_create_todo_table')
+    def test_create_todo_table_error(self):
         
-    # def test_create_todo_table_error(self):
-        
-    #     print ('---------------------')
-    #     print ('Start: test_create_todo_table_error')
-    #     from src.todoList import create_todo_table    
-    #     # Testing file functions
-    #     table = create_todo_table(self.dynamodb)
-    #     print(table.table_status)
-    #     # Testing file functions
-    #     self.assertNotEqual(table, self.table.name)
-    #     print ('End: test_create_todo_table_error')
+         print ('---------------------')
+         print ('Start: test_create_todo_table_error')
+         from src.todoList import create_todo_table
+         table = create_todo_table(self.dynamodb)
+         self.assertNotEqual(table, self.table.name)
+         print ('End: test_create_todo_table_error')
 
     def test_table_no_exists(self):
         
         print ('---------------------')
         print ('Start: test_table_no_exists')
-
         from src.todoList import get_table
-        
         print(self.dynamodb)
         result = get_table(self.dynamodb)
         print ('Response GetTable' + str(result))
@@ -269,12 +255,7 @@ class TestDatabaseFunctions(unittest.TestCase):
         print ('---------------------')
         print ('Start: test_get_todo_exception')
         from src.todoList import get_item
-        
-        # Testing file functions
-        # Don't create the table mock so we are not going to have id
-        
-        idItem=None       
-        
+        idItem=None
         print(idItem)
         responseGet_except = get_item(
                 idItem,
@@ -286,7 +267,6 @@ class TestDatabaseFunctions(unittest.TestCase):
         
         print ('---------------------')
         print ('Start: test_updateItem_noExists')
-
         from src.todoList import update_item
         result = update_item(None,'Nuevo texto de prueba',False,self.dynamodb)
         print ('Response update_item' + str(result))
