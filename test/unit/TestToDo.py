@@ -29,7 +29,7 @@ class TestDatabaseFunctions(unittest.TestCase):
        
         self.is_local = 'true'
         self.uuid = "123e4567-e89b-12d3-a456-426614174000"
-        self.text = "Aprender DevOps y Cloud en la UNIR"
+        self.text = "I'm an item on the ToDo list"
 
         from src.todoList import create_todo_table
         print(self.dynamodb)
@@ -126,7 +126,7 @@ class TestDatabaseFunctions(unittest.TestCase):
         from src.todoList import put_item
         from src.todoList import update_item
         from src.todoList import get_item
-        updated_text = "Aprender más cosas que DevOps y Cloud en la UNIR"
+        updated_text = "I'm another different item on the ToDo List"
         # Testing file functions
         # Table mock
         responsePut = put_item(self.text, self.dynamodb)
@@ -146,7 +146,7 @@ class TestDatabaseFunctions(unittest.TestCase):
         print ('Start: test_update_todo_error')
         from src.todoList import put_item
         from src.todoList import update_item
-        updated_text = "Aprender más cosas que DevOps y Cloud en la UNIR"
+        updated_text = "I'm another different item on the ToDo List"
         # Testing file functions
         # Table mock
         responsePut = put_item(self.text, self.dynamodb)
