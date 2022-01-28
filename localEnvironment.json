@@ -22,5 +22,9 @@
   "DeleteTodoFunction": {
     "ENDPOINT_OVERRIDE": "http://dynamodb:8000",
     "DYNAMODB_TABLE": "local-TodosDynamoDbTable"
+  },
+  "TranslateFunction": {
+    "ENDPOINT_OVERRIDE": "http://dynamodb:8000",
+    "DYNAMODB_TABLE": "local-TodosDynamoDbTable"
   }
 }
