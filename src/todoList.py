@@ -122,6 +122,22 @@ def delete_item(key, dynamodb=None):
         return
 
 
+def translate(key, lang):
+    item = get_item(key)
+    try:
+        if not item:
+            return {"status_code": 404, "message": f"Id {key} not present"}
+        translate = boto3.client('translate')
+        result = translate.translate_text(Text=item['text'],
+                                          SourceLanguageCode="auto",
+                                          TargetLanguageCode=lang)
+    except ClientError as e:
+        print(e.response['Error']['Message'])
+        return {"status_code": 422, "message": e.response['Error']['Message']}
+    else:
+        return {"status_code": 200, "message": result.get('TranslatedText')}
+
+
 def create_todo_table(dynamodb):
     # For unit testing
     tableName = os.environ['DYNAMODB_TABLE']
