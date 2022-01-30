@@ -17,7 +17,7 @@ def get_table(dynamodb=None):
             boto3.client = functools.partial(boto3.client, endpoint_url=URL)
             boto3.resource = functools.partial(boto3.resource,
                                                endpoint_url=URL)
-        dynamodb = boto3.resource("dynamodb")
+        dynamodb = boto3.resource("dynamodb", region_name="us-east-1")
     # https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#service-resource
     # fetch todo from the database
     table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
@@ -120,6 +120,22 @@ def delete_item(key, dynamodb=None):
         print(e.response['Error']['Message'])
     else:
         return
+
+
+def translate(key, lang):
+    item = get_item(key)
+    try:
+        if not item:
+            return {"status_code": 404, "message": f"Id {key} not present"}
+        translate = boto3.client('translate', region_name="us-east-1")
+        result = translate.translate_text(Text=item['text'],
+                                          SourceLanguageCode="auto",
+                                          TargetLanguageCode=lang)
+    except ClientError as e:
+        print(e.response['Error']['Message'])
+        return {"status_code": 422, "message": e.response['Error']['Message']}
+    else:
+        return {"status_code": 200, "message": result.get('TranslatedText')}
 
 
 def create_todo_table(dynamodb):

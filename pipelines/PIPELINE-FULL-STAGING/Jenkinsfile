@@ -19,7 +19,7 @@ pipeline {
                 always {
                     script {
                         def failed = publishCoverage (failUnhealthy: true, 
-                            globalThresholds: [[thresholdTarget: 'Line', unhealthyThreshold: 79.68]],
+                            globalThresholds: [[thresholdTarget: 'Line', unhealthyThreshold: 80.0]],
                             adapters: [coberturaAdapter(
                                 mergeToOneReport: true, 
                                 path: '**/coverage.xml')])

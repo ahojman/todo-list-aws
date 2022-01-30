@@ -165,6 +165,39 @@ class TestApi(unittest.TestCase):
             response.status_code, 200, "Error en la petición API a {url}"
         )
         print('End - integration test Update TODO')
+
+    def test_api_translation(self):
+        
+        print('---------------------------------------')
+        print('Starting - Translation Integration Test')
+        url = BASE_URL+"/todos"
+        data = {
+         "text": "This is a demo text"
+        }
+        response = requests.post(url, data=json.dumps(data))
+        json_response = response.json()
+        print('Response Add Todo: '+ json_response['body'])
+        jsonbody= json.loads(json_response['body'])
+        ID_TODO = jsonbody['id']
+        print ('ID todoo:'+ID_TODO)
+        self.assertEqual(
+            response.status_code, 200, "Error en la petición API a {url}"
+        )
+        self.assertEqual(
+            jsonbody['text'], "This is a demo text", "Error en la petición API a {url}"
+        )
+        url = f"{url}/{ID_TODO}/fr"
+        response = requests.get(url)
+        self.assertEqual(
+            response.text, "Il s'agit d'un texte de démonstration", "Error en la petición API a {url}"
+        )
+        url = f"{BASE_URL}/todos/{ID_TODO}"
+        response = requests.delete(url)
+        self.assertEqual(
+            response.status_code, 200, "Error en la petición API a {url}"
+        )
+        print('End - integration test Translate')
+    
     def test_api_deletetodo(self):
         print('---------------------------------------')
         print('Starting - integration test Delete TODO')
